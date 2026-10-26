@@ -1,0 +1,6 @@
+{
+  "name": "cdp-browser-e2e-harness",
+  "private": true,
+  "description": "Local stand-in for hub + agent + sshd + emulator gateway, used by test/e2e_test.dart",
+  "dependencies": { "ssh2": "^1.16.0", "ws": "^8.18.0" }
+}

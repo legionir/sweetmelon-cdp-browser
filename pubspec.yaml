@@ -1,0 +1,36 @@
+name: sweetmelon_cdp_browser
+description: Remote CDP browser client built on Sweetmelon, reached through a ws-cf-tunnel SSH forward.
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.0.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  sweetmelon:
+    git:
+      url: https://github.com/legionir/sweetmelon.git
+      ref: v2.6.0   # exact tag; patch releases only fix bugs
+  crypto: ^3.0.5
+  dartssh2: 4.1.0
+  get_it: ^7.6.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+dependency_overrides:
+  # dartssh2 4.x (2.x no longer compiles on current Flutter) needs pointycastle 4;
+  # Sweetmelon's own encryption plugin, the only pointycastle user, is not part of this app.
+  pointycastle: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/www/
+    - assets/www/css/
+    - assets/www/js/
