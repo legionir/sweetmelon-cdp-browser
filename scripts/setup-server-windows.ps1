@@ -35,10 +35,10 @@ node dist\chrome\cli.js >> "$root\emulator.log" 2>&1
 Set-Content "$root\run.cmd" $cmd -Encoding ASCII
 icacls "$root\gateway-token.txt" /inheritance:r /grant:r "Administrators:F" "SYSTEM:F" | Out-Null
 
-$action = New-ScheduledTaskAction -Execute "$root\run.cmd"
-$trigger = New-ScheduledTaskTrigger -AtStartup
-Register-ScheduledTask -TaskName 'cdp-emulator' -Action $action -Trigger $trigger -User 'SYSTEM' -RunLevel Highest -Force | Out-Null
-Start-ScheduledTask -TaskName 'cdp-emulator'
+# Start detached from this session (OpenSSH kills child processes of a session on logout).
+Invoke-CimMethod -ClassName Win32_Process -MethodName Create -Arguments @{CommandLine = "cmd.exe /c $root\run.cmd"; CurrentDirectory = $root} | Out-Null
+# To survive reboots, register it yourself (as Administrator):
+#   Register-ScheduledTask -TaskName cdp-emulator -User SYSTEM -RunLevel Highest -Trigger (New-ScheduledTaskTrigger -AtStartup) -Action (New-ScheduledTaskAction -Execute "$root\run.cmd")
 Start-Sleep 8
 Invoke-WebRequest -UseBasicParsing -Headers @{Authorization = "Bearer $token"} "http://127.0.0.1:$Port/api/state" | Select-Object StatusCode
 Write-Host "Gateway token saved in $root\gateway-token.txt"

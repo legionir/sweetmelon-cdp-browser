@@ -26,7 +26,7 @@ set PORT=3000
 npm start
 ```
 
-Use `npm run doctor` first. Run it as a scheduled task or service so it survives logoff.
+Use `npm run doctor` first. Start it detached from the SSH session (`Invoke-CimMethod Win32_Process Create`), otherwise OpenSSH kills it on logout. For reboots register a scheduled task (see `scripts/setup-server-windows.ps1`).
 
 ## Security note
 
