@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0a1a" />
+  <title>CDP Browser</title>
+  <link rel="stylesheet" href="css/app.css" />
+</head>
+<body>
+  <main id="setup" class="screen">
+    <h1>مرورگر راه‌دور (CDP)</h1>
+    <p class="hint">اتصال به cdp-browser-emulator از طریق ws-cf-tunnel و SSH</p>
+
+    <form id="form" autocomplete="off">
+      <label>آدرس تونل (TUNNEL_URL)
+        <input name="tunnelUrl" type="url" inputmode="url" placeholder="wss://….workers.dev" dir="ltr" required />
+      </label>
+      <label>توکن کلاینت (AUTH_TOKEN)
+        <input name="authToken" type="password" dir="ltr" required />
+      </label>
+      <label>شناسهٔ سرور (SERVER_ID)
+        <input name="serverId" type="text" dir="ltr" required />
+      </label>
+      <div class="row">
+        <label>کاربر SSH
+          <input name="sshUser" type="text" dir="ltr" required />
+        </label>
+        <label>رمز SSH
+          <input name="sshPassword" type="password" dir="ltr" />
+        </label>
+      </div>
+      <details>
+        <summary>تنظیمات پیشرفته</summary>
+        <label>پورت gateway روی سرور
+          <input name="remotePort" type="number" min="1" max="65535" value="3000" dir="ltr" />
+        </label>
+        <label>توکن gateway (GATEWAY_TOKEN، اختیاری)
+          <input name="gatewayToken" type="password" dir="ltr" />
+        </label>
+        <label>کلید خصوصی SSH (PEM، اختیاری)
+          <textarea name="sshPrivateKey" rows="3" dir="ltr"></textarea>
+        </label>
+      </details>
+      <label class="check"><input type="checkbox" name="remember" checked /> ذخیرهٔ امن تنظیمات روی دستگاه</label>
+      <button type="submit" id="btnConnect">اتصال</button>
+    </form>
+    <p id="status" class="status" role="status"></p>
+  </main>
+
+  <section id="browser" class="screen" hidden>
+    <header class="bar">
+      <span id="dot" class="dot"></span>
+      <span id="barText">متصل</span>
+      <button id="btnReload" type="button" aria-label="بارگذاری مجدد">⟳</button>
+      <button id="btnDisconnect" type="button">قطع اتصال</button>
+    </header>
+    <iframe id="frame" title="remote browser" referrerpolicy="no-referrer"></iframe>
+  </section>
+
+  <script src="js/native-sdk.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
