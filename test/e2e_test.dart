@@ -36,7 +36,7 @@ void main() {
     await f.start();
     addTearDown(f.stop);
     expect(f.state, ForwarderState.connected);
-    expect(f.localUrl, startsWith('http://127.0.0.1:'));
+    expect(f.localUrl, startsWith('http://localhost:'));
     final body = jsonDecode(await get('${f.localUrl}api/state')) as Map<String, dynamic>;
     expect(body['ok'], isTrue);
     // Several parallel requests share one SSH session.
