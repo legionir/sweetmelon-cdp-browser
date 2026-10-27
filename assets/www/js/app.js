@@ -13,8 +13,8 @@
   var localUrl = null;
 
   var LABELS = {
-    connecting: 'در حال اتصال…', connected: 'متصل', reconnecting: 'اتصال مجدد…',
-    failed: 'ناموفق', idle: 'قطع'
+    connecting: 'Connecting…', connected: 'Connected', reconnecting: 'Reconnecting…',
+    failed: 'Failed', idle: 'Disconnected'
   };
 
   function setStatus(text, isError) {
@@ -61,7 +61,7 @@
     ev.preventDefault();
     var values = readForm();
     btn.disabled = true;
-    setStatus('در حال اتصال به تونل و SSH…');
+    setStatus('Connecting to the tunnel and SSH…');
     var remember = form.elements.remember.checked;
     (remember ? save(values) : NativeSDK.secureStorage.remove(KEY).catch(function () {}))
       .then(function () {
@@ -76,7 +76,7 @@
           show(true);
           setStatus('');
         } else {
-          setStatus(res.error || 'اتصال برقرار نشد', true);
+          setStatus(res.error || 'Could not connect', true);
         }
       })
       .catch(function (e) { setStatus(String((e && e.message) || e), true); })
@@ -93,12 +93,17 @@
     NativeSDK.call('cdpTunnel', 'disconnect', {}).catch(function () {}).then(function () {
       localUrl = null;
       show(false);
-      setStatus('اتصال قطع شد.');
+      setStatus('Disconnected.');
     });
   });
 
   document.getElementById('btnReload').addEventListener('click', function () {
     if (localUrl) frame.src = localUrl;
+  });
+
+  form.addEventListener('focusin', function (ev) {
+    var el = ev.target;
+    if (el && el.scrollIntoView) setTimeout(function () { el.scrollIntoView({ block: 'center', behavior: 'smooth' }); }, 250);
   });
 
   function start() {
@@ -115,9 +120,9 @@
 
   if (window.NativeSDK && NativeSDK.waitForReady) {
     NativeSDK.waitForReady(15000).then(start).catch(function () {
-      setStatus('پل نیتیو آماده نشد.', true);
+      setStatus('Native bridge did not become ready.', true);
     });
   } else {
-    setStatus('NativeSDK در دسترس نیست.', true);
+    setStatus('NativeSDK is not available.', true);
   }
 })();

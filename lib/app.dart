@@ -13,6 +13,9 @@ class CdpBrowserApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(scaffoldBackgroundColor: const Color(0xFF0A0A1A)),
       home: Scaffold(
+        // The soft keyboard must overlay the WebView, not shrink it: a shrinking view makes the
+        // remote browser resize (small image, then a stretched frame when the keyboard closes).
+        resizeToAvoidBottomInset: false,
         body: SafeArea(
           child: WebViewHost(
             loadFromAssets: true,
