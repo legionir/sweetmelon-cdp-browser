@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -9,41 +9,39 @@
 </head>
 <body>
   <main id="setup" class="screen">
-    <h1>مرورگر راه‌دور (CDP)</h1>
-    <p class="hint">اتصال به cdp-browser-emulator از طریق ws-cf-tunnel و SSH</p>
+    <h1>Remote CDP Browser</h1>
+    <p class="hint">Connects to cdp-browser-emulator through ws-cf-tunnel and SSH</p>
 
     <form id="form" autocomplete="off">
-      <label>آدرس تونل (TUNNEL_URL)
-        <input name="tunnelUrl" type="url" inputmode="url" placeholder="wss://….workers.dev" dir="ltr" required />
+      <label>Tunnel URL (TUNNEL_URL)
+        <input name="tunnelUrl" type="url" inputmode="url" placeholder="wss://&hellip;.workers.dev" required />
       </label>
-      <label>توکن کلاینت (AUTH_TOKEN)
-        <input name="authToken" type="password" dir="ltr" required />
+      <label>Client token (AUTH_TOKEN)
+        <input name="authToken" type="password" required />
       </label>
-      <label>شناسهٔ سرور (SERVER_ID)
-        <input name="serverId" type="text" dir="ltr" required />
+      <label>Server ID (SERVER_ID)
+        <input name="serverId" type="text" required />
       </label>
-      <div class="row">
-        <label>کاربر SSH
-          <input name="sshUser" type="text" dir="ltr" required />
-        </label>
-        <label>رمز SSH
-          <input name="sshPassword" type="password" dir="ltr" />
-        </label>
-      </div>
+      <label>SSH user
+        <input name="sshUser" type="text" required />
+      </label>
+      <label>SSH password
+        <input name="sshPassword" type="password" />
+      </label>
       <details>
-        <summary>تنظیمات پیشرفته</summary>
-        <label>پورت gateway روی سرور
-          <input name="remotePort" type="number" min="1" max="65535" value="3000" dir="ltr" />
+        <summary>Advanced settings</summary>
+        <label>Gateway port on the server
+          <input name="remotePort" type="number" min="1" max="65535" value="3000" />
         </label>
-        <label>توکن gateway (GATEWAY_TOKEN، اختیاری)
-          <input name="gatewayToken" type="password" dir="ltr" />
+        <label>Gateway token (GATEWAY_TOKEN, required if the server has one)
+          <input name="gatewayToken" type="password" />
         </label>
-        <label>کلید خصوصی SSH (PEM، اختیاری)
-          <textarea name="sshPrivateKey" rows="3" dir="ltr"></textarea>
+        <label>SSH private key (PEM, optional)
+          <textarea name="sshPrivateKey" rows="3"></textarea>
         </label>
       </details>
-      <label class="check"><input type="checkbox" name="remember" checked /> ذخیرهٔ امن تنظیمات روی دستگاه</label>
-      <button type="submit" id="btnConnect">اتصال</button>
+      <label class="check"><input type="checkbox" name="remember" checked /> Remember settings securely on this device</label>
+      <button type="submit" id="btnConnect">Connect</button>
     </form>
     <p id="status" class="status" role="status"></p>
   </main>
@@ -51,9 +49,9 @@
   <section id="browser" class="screen" hidden>
     <header class="bar">
       <span id="dot" class="dot"></span>
-      <span id="barText">متصل</span>
-      <button id="btnReload" type="button" aria-label="بارگذاری مجدد">⟳</button>
-      <button id="btnDisconnect" type="button">قطع اتصال</button>
+      <span id="barText">Connected</span>
+      <button id="btnReload" type="button" aria-label="Reload">&#10227;</button>
+      <button id="btnDisconnect" type="button">Disconnect</button>
     </header>
     <iframe id="frame" title="remote browser" referrerpolicy="no-referrer"></iframe>
   </section>

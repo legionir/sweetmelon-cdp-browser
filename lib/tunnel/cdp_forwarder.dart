@@ -36,13 +36,15 @@ class CdpForwarder {
   ForwarderState get state => _state;
   int? get localPort => _server?.port;
 
-  /// URL of the emulator UI as seen from the device.
+  /// URL of the emulator UI as seen from the device. The host must be `localhost`, like the
+  /// Sweetmelon asset server: the gateway's session cookie is SameSite=Strict, so a page on
+  /// `localhost` framing `127.0.0.1` would never send it back (cross-site) and every API call would 401.
   String? get localUrl {
     final port = localPort;
     if (port == null) return null;
     final token = config.gatewayToken;
     final query = (token == null || token.isEmpty) ? '' : '?token=${Uri.encodeQueryComponent(token)}';
-    return 'http://127.0.0.1:$port/$query';
+    return 'http://localhost:$port/$query';
   }
 
   void _set(ForwarderState s, {String? error}) {

@@ -3,6 +3,10 @@ on:
   workflow_dispatch:
   push:
     tags: ['v*']
+    branches: ['apk/**', 'ccr-977a6b7e-wyvi32']
+
+permissions:
+  contents: read
 
 jobs:
   apk:

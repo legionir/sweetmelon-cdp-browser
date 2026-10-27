@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.legionir.sweetmelon_cdp_browser"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 37
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
